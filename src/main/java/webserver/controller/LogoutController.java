@@ -8,7 +8,7 @@ import webserver.response.Response;
 
 public class LogoutController implements Controller{
 
-    private static final String STATUS302 = "302 Redirect ";
+    private static final String STATUS302 = "302 Redirect";
 
     private final Logger log = LoggerFactory.getLogger(LogoutController.class);
 

@@ -3,32 +3,27 @@ package webserver.response;
 import webserver.ContentType;
 import webserver.Cookie;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+
 public class Response {
 
     private final String protocol;
     private final String status;
-    private final Cookie cookie;
-    private String viewPath; // body
-    private ContentType contentType; // body
-    private String location; // 302
+    private final Cookie cookie = new Cookie();
+    private String viewPath;
+    private ContentType contentType;
+    private String location;
 
-    private Response(String protocol, String status, String viewPath, ContentType contentType, String location) {
+    private Response(String protocol, String status) {
         this.protocol = protocol;
         this.status = status;
-        this.viewPath = viewPath;
-        this.contentType = contentType;
-        this.location = location;
-        this.cookie = new Cookie();
-    }
-
-    public static Response of(String protocol, String status, String viewPath, ContentType contentType) {
-        return new Response(protocol, status, viewPath, contentType, null);
-    }
+    };
 
     public static Response of(String protocol, String status) {
-        return new Response(protocol, status, null, null, null);
+        return new Response(protocol, status);
     }
-
 
     public String getProtocol() {
         return protocol;
@@ -56,6 +51,11 @@ public class Response {
 
     public String getSession() {
         return cookie.getSessionId().orElse(null);
+    }
+
+    public void setViewPath(String viewPath) {
+        this.viewPath = viewPath;
+        this.contentType = ContentType.from(viewPath);
     }
 
     public void setCookie(String key, String value) {

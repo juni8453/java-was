@@ -14,6 +14,7 @@ public class ResponseWriter {
 
     private static final String NEW_LINE = "\r\n";
     private static final String BLANK = " ";
+    private static final String SEMI_COLON = ";";
     private static final String CONTENT_TYPE_KEY = "Content-Type: ";
     private static final String CHARSET = "charset=utf-8";
     private static final String CONTENT_LENGTH_KEY = "Content-Length: ";
@@ -32,11 +33,11 @@ public class ResponseWriter {
 
     public void writeResponse() {
         try {
-            dos.writeBytes(response.getProtocol() + BLANK + response.getStatus() + NEW_LINE);
-            if (response.getContentType() == null) {
+            dos.writeBytes(response.getProtocol() + BLANK + response.getStatus() + BLANK + NEW_LINE);
+            if (response.getStatus().equals("302 Redirect")) {
                 write302();
             }
-            if (response.getLocation() == null) {
+            if (response.getStatus().equals("200 Ok")) {
                 write200();
             }
             dos.flush();
@@ -47,7 +48,7 @@ public class ResponseWriter {
     }
 
     private void write200() throws IOException {
-        dos.writeBytes(CONTENT_TYPE_KEY + response.getContentTypeAsString() + CHARSET + NEW_LINE);
+        dos.writeBytes(CONTENT_TYPE_KEY + response.getContentTypeAsString() + SEMI_COLON + CHARSET + NEW_LINE);
         byte[] body = parseResource();
         dos.writeBytes(CONTENT_LENGTH_KEY + body.length + NEW_LINE);
         dos.writeBytes(NEW_LINE);

@@ -1,9 +1,9 @@
 package webserver;
 
 public enum ContentType {
-    HTML("text/html;"),
-    CSS("text/css;"),
-    JS("application/javascript;");
+    HTML("text/html"),
+    CSS("text/css"),
+    JS("application/javascript");
 
     private final String type;
 
