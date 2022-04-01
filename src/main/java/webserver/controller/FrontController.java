@@ -11,7 +11,8 @@ public class FrontController implements Controller {
     private static final Map<RequestMapper, BackController> backControllers =
             Map.of(new RequestMapper("POST", "/user/create"), new UserCreateController(),
                     new RequestMapper("POST", "/user/login"), new UserLoginController(),
-                    new RequestMapper("GET", "/user/logout"), new LogoutController());
+                    new RequestMapper("GET", "/user/logout"), new LogoutController(),
+                    new RequestMapper("GET", "/user/list"), new UserListController());
 
     @Override
     public Response handleRequest(Request request) {

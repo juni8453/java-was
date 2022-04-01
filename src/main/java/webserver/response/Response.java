@@ -38,6 +38,11 @@ public class Response {
         return Optional.ofNullable(body);
     }
 
+    public void changeBodyWithModel(byte[] body) {
+        headers.put("Content-Length", String.valueOf(body.length));
+        this.body = body;
+    }
+
     public void setLocation(String location) {
         headers.put("Location", location);
     }
