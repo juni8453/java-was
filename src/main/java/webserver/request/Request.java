@@ -3,6 +3,7 @@ package webserver.request;
 import util.HttpRequestUtils;
 
 import java.util.Map;
+import java.util.Optional;
 
 public class Request {
 
@@ -53,8 +54,13 @@ public class Request {
     }
 
     public String getSessionId() {
-        String cookie = headers.get("Cookie");
-        return cookie.split("=")[1];
+        Optional<String> cookie = Optional.ofNullable(headers.get("Cookie"));
+
+        if (cookie.isPresent()) {
+            return cookie.get().split("=")[1];
+        }
+
+        return "";
     }
 
 }

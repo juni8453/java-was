@@ -1,6 +1,7 @@
 package webserver.controller;
 
 import db.DataBase;
+import db.SessionDataBase;
 import model.User;
 import webserver.request.Request;
 import webserver.response.Response;
@@ -14,10 +15,17 @@ public class UserListController implements BackController {
     @Override
     public Response process(Request request) {
         Response response = new Response(request.getProtocol(), STATUS200);
-        return showUser(response);
+        return showUser(request, response);
     }
 
-    private Response showUser(Response response) {
+    private Response showUser(Request request, Response response) {
+        String sessionId = request.getSessionId();
+        if(!SessionDataBase.findSessionByUser(sessionId)) {
+            response.saveBody("/user/login.html");
+
+            return response;
+        }
+
         Collection<User> users = DataBase.findAll();
 
         response.saveBody("/user/list.html");
